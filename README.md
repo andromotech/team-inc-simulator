@@ -17,7 +17,7 @@ The game is inspired by the [Site Reliability Engineering](https://landing.googl
 *   **Game Master**: The host-coordinator of the session.
 *   **Volunteer**: The trainee oncall engineer.
 
-Feel free to fork the [repository](https://github.com/team-inc-simulator) or [download](https://github.com/team-inc-simulator/releases) the stable release.
+Feel free to fork the [repository](https://github.com/team-inc-simulator) or [download](https://github.com/andromotech/team-inc-simulator/archive/refs/heads/main.zip) the stable release.
 Insert your incident scenarios into the [general\_incidents.json](https://github.com/team-inc-simulator/incidents/general_incidents.json) file inside the [incidents/]([https://github.com/dastergon/wheel-of-misfortune/tree/main/incidents](https://github.com/team-inc-simulator/incidents) folder & oncall json file [incidents/](https://github.com/team-inc-simulator/incidents/oncall.json) folder
 
 The file has the following format:
