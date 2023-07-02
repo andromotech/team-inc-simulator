@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>EBS - Incident Simulator</title>
+    <meta name="description" content="Incident training program for Oncall SRE(s)">
+    <meta name="keywords" content="Incident Response,Trainng,Site Reliability Engineering,SRE,Oncall">
+    <link rel="stylesheet" href="static/styles.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicon-16x16.png">
+    <link rel="manifest" href="static/site.webmanifest">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <style>
+        .github-corner:hover .octo-arm {
+            animation: octocat-wave 560ms ease-in-out
+        }
+
+        @keyframes octocat-wave {
+
+            0%,
+            100% {
+                transform: rotate(0)
+            }
+
+            20%,
+            60% {
+                transform: rotate(-25deg)
+            }
+
+            40%,
+            80% {
+                transform: rotate(10deg)
+            }
+        }
+
+        @media (max-width:500px) {
+            .github-corner:hover .octo-arm {
+                animation: none
+            }
+
+            .github-corner .octo-arm {
+                animation: octocat-wave 560ms ease-in-out
+            }
+        }
+    </style>
+
+    <header class="tc pv4 bg-blue">
+        <a href="index.html">
+            <h1 class="white-ft f1">EBS - Incident Simulator</h1>
+        </a>
+        <h1 class="white-ft f4">Incident training program for Oncall </h1>
+    </header>
+    <div class="flex items-center justify-center bg-lightest-blue navy pa3">
+        <!-- <svg class="w1" data-icon="info" viewBox="0 0 32 32" style="fill:currentcolor">
+            <title>info icon</title>
+            <path
+                d="M16 0 A16 16 0 0 1 16 32 A16 16 0 0 1 16 0 M19 15 L13 15 L13 26 L19 26 z M16 6 A3 3 0 0 0 16 12 A3 3 0 0 0 16 6">
+            </path>
+        </svg> -->
+        <!-- <div class="ml3"><a class="navy" href="instructions.html">Instructions</a></div> -->
+        <div >
+            <SELECT name="teamObjects" id="teamObjects"  onChange="pm(this)">
+                <OPTION>Select SN Group</OPTION>
+            </SELECT>
+            <input type="radio" id="location" name="location" value="US" onclick="reInit(this.value)" >CIM
+            &nbsp;<input type="radio" id="location" name="location" value="IN" onclick="reInit(this.value)" >ES
+            &nbsp;<input type="radio" id="location" name="location" value="all" onclick="reInit(this.value)" checked>Both
+            &nbsp;<input type="button" name="refresh" value="Reset" onclick="reload()">
+        </div>
+    </div>
+
+    <article class="cf mw mw-h center bg-white br3 mv4 ba b--black-10">
+        <div class="fl w-100 w-40-ns tc pa3">
+            <h4 class="f4 center mw6">Oncall Wheel!</h4> &#128223;
+            <hr class="mw3 bb bw1 b--black-10">
+            <div id="wheel1"></div>
+            <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script src="static/wheel1.js"></script>
+        </div>
+        <div class="fl w-100 w-40-ns tc pa3">
+            <h4 class="f4 center mw6">Incident Wheel!</h4> &#128223;
+            <hr class="mw3 bb bw1 b--black-10">
+            <div id="wheel"></div>
+            <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script src="static/wheel.js"></script>
+        </div>
+        <div class="fl w-100 w-40-ns tc pa3">
+            <article id="whosoncall">
+                <p></p>
+            </article>
+        </div>
+        <div class="fl w-100 w-40-ns tc pa3">
+            <article id="incident">
+                <p></p>
+            </article>
+        </div>
+    </article>
+
+    <article class="cf">
+        <div class="mw mw-h center">
+            <div class="fl w-100 w-30-ns tc center bg-white br3 pa3 mv3 ba b--black-10 mbr">
+                <ul class="list">
+                    <h4 class="f4 center mw6">Incident Actions</h4> &#128203;
+                    <hr class="mw3 bb bw1 b--black-10">
+                    <li class="pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30">
+                        <input type="checkbox" class="magic-checkbox" name="progress" value="first" id="first"
+                            onClick="stopwatch.lap();changeProgress(this, 0, 25);unlockCheckbox(this);" />
+                        <label for="first">ACKNOWLEDGE</label>
+                    </li>
+                    <li class="pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30"><input type="checkbox"
+                            class="magic-checkbox" name="progress" value="second" id="second"
+                            onClick="stopwatch.lap();changeProgress(this, 25, 50);unlockCheckbox(this);" disabled>
+                        <label for="second">MITIGATE</label></li>
+                    <li class="pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30">
+                        <input type="checkbox" class="magic-checkbox" name="progress" value="third" id="third"
+                            onClick="stopwatch.lap();changeProgress(this, 50, 75);unlockCheckbox(this);" disabled>
+                        <label for="third">TRIAGE</label></li>
+                    <li class="pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30">
+                        <input type="checkbox" class="magic-checkbox" name="progress" value="fourth" id="fourth"
+                            onClick="stopwatch.lap();stopwatch.stop();changeProgress(this, 75, 100);" disabled>
+                        <label for="fourth">RESOLVE</label></li>
+                </ul>
+            </div>
+            <div class="fl w-100 w-30-ns tc center bg-white br3 pa3 mv3 ba b--black-10 mbr">
+                <h4 class="f4 center mw6">Incident Progress</h4>&#128202;
+                <hr class="mw3 bb bw1 b--black-10">
+                <div class="sz pa3">
+                    <div id="progress" class="pie-wrapper">
+                        <span id="percent" class="label">0<span class="smaller">%</span></span>
+                        <div class="pie">
+                            <div class="left-side half-circle"></div>
+                            <div class="right-side half-circle"></div>
+                        </div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="fl w-100 w-30-ns tc center bg-white br3 pa3 mv3 ba b--black-10 mbr">
+                <div class="timing">
+                    <h4 class="f4 center mw6">Timing Controls</h4>&#9203;
+                    <hr class="mw3 bb bw1 b--black-10">
+                    <div class="stopwatch pa3"></div>
+                    <button id="start" class="button" onClick="stopwatch.start();changeControls();">▶</button>
+                    <button id="restart" class="button"
+                        onClick="stopwatch.restart();stopwatch.clear();changeControls();">↻</button>
+                    <button id="lap" class="button" onClick="stopwatch.lap();">Lap</button>
+                    <ul class="results"></ul>
+                    <script src="static/stopwatch.js"></script>
+                    <script src="static/ink.js"></script>
+                    <script src="static/mainink.js"></script>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <footer class="pv4 ph4">
+        <small class="f4 db tc"><a href="https://localhostom/x/qyYXW" class="link" target="new">localhost - SRE</a></small>
+    </footer>
+</body>
+
+</html>
+
+<script>
+
+    function unlockCheckbox(c) {
+        if (c.value == "first") {
+            document.getElementById("first").disabled = true;
+            document.getElementById("second").disabled = false;
+        }
+        else if (c.value == "second") {
+            document.getElementById("second").disabled = true;
+            document.getElementById("third").disabled = false;
+        }
+        else if (c.value == "third") {
+            document.getElementById("third").disabled = true;
+            document.getElementById("fourth").disabled = false;
+        }
+        else {
+            document.getElementById("fourth").disabled = true;
+        }
+
+    }
+
+    function changeProgress(c, p, n) {
+        if (c.checked) {
+            var element = document.getElementById("progress");
+            element.classList.remove("progress-" + p);
+            element.classList.add("progress-" + n);
+            document.getElementById('percent').childNodes[0].nodeValue = n;
+        } else {
+            var element = document.getElementById("progress");
+            element.classList.remove("progress-" + n);
+            element.classList.add("progress-" + p);
+            document.getElementById('percent').childNodes[0].nodeValue = p;
+        }
+    }
+
+    function changeControls() {
+        var timingBtn = document.getElementById("start");
+        if (timingBtn) {
+            timingBtn.setAttribute('onclick', 'stopwatch.stop();changeControls();');
+            timingBtn.id = "stop";
+            timingBtn.innerText = "||";
+        } else {
+            var timingBtn = document.getElementById("stop");
+            timingBtn.setAttribute('onclick', 'stopwatch.start();changeControls();');
+            timingBtn.id = "start";
+            timingBtn.innerText = "▶";
+        }
+
+
+    }
+</script>
