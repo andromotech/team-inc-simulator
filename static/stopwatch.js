@@ -104,12 +104,11 @@ var Stopwatch = function () {
       }}, {
         key: 'printLapTimes',
         value: function printLapTimes() {
-            var labels = ['ACKNOWLEDGE', 'MITIGATE', 'TRIAGE', 'RESOLVE'];
             console.log('Lap Times:');
-            for (var i = 0; i < this.lapTimes.length; i++) {
-              var label = labels[i] || 'Lap ' + (i + 1);
-              console.log(label + ': ' + this.lapTimes[i]);
-            }
+              console.log('ACKNOWLEDGE' + ': ' + this.lapTimes[0]);
+              console.log('MITIGATE' + ': ' + this.lapTimes[1]);
+              console.log('TRIAGE' + ': ' + this.lapTimes[2]);
+              console.log('RESOLVE' + ': ' + this.lapTimes[3]);
           }
     
     }]);
