@@ -171,7 +171,6 @@
 </html>
 
 <script>
-
     function unlockCheckbox(c) {
         if (c.value == "first") {
             document.getElementById("first").disabled = true;
@@ -187,22 +186,33 @@
         }
         else {
             document.getElementById("fourth").disabled = true;
-        }
+            stopwatch.lap();
+         }   
+         
+               
+
 
     }
-
+    
     function changeProgress(c, p, n) {
         if (c.checked) {
             var element = document.getElementById("progress");
             element.classList.remove("progress-" + p);
             element.classList.add("progress-" + n);
             document.getElementById('percent').childNodes[0].nodeValue = n;
+            
         } else {
             var element = document.getElementById("progress");
             element.classList.remove("progress-" + n);
             element.classList.add("progress-" + p);
             document.getElementById('percent').childNodes[0].nodeValue = p;
+           
         }
+        var lapTimes = stopwatch.lapTimes;
+               console.log('ACKNOWLEDGE' + ': ' + lapTimes[0]);
+               console.log('MITIGATE' + ': ' + lapTimes[1]);
+               console.log('TRIAGE' + ': ' + lapTimes[2]);         
+               console.log('RESOLVE' + ': ' +stopwatch.lapTimes[3]);
     }
 
     function changeControls() {
@@ -217,7 +227,7 @@
             timingBtn.id = "start";
             timingBtn.innerText = "▶";
         }
-
+   
 
     }
 </script>

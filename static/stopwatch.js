@@ -1,7 +1,7 @@
 /* Kudos to Billy Brown: https://codepen.io/_Billy_Brown/pen/dbJeh */
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-/* Kudos to Billy Brown: https://codepen.io/_Billy_Brown/pen/dbJeh */
-/* Kudos to Billy Brown: https://codepen.io/_Billy_Brown/pen/dbJeh */
+//var abc = [];
 var Stopwatch = function () {
     function Stopwatch(display, results) {
       _classCallCheck(this, Stopwatch);
@@ -9,6 +9,7 @@ var Stopwatch = function () {
       this.display = display;
       this.results = results;
       this.lapTimes = [];
+     // this.abc = [];
       this.reset();
       this.print(this.times);
     }
@@ -32,11 +33,9 @@ var Stopwatch = function () {
         if (!this.running) return;
         var times = this.times;
         var lapTime = this.format(times);
-        console.log('Resolve Duration:', lapTime);
         this.lapTimes.push(lapTime);
-        this.printLapTimes();
-
-  
+       // this.abc.push(lapTime);
+       // this.printLapTimes();
         var li = document.createElement('li');
         li.innerText = lapTime;
         this.results.appendChild(li);
@@ -101,17 +100,17 @@ var Stopwatch = function () {
           pad0(times[1], 2) + ':' +
           pad0(Math.floor(times[2]), 2)
         );
-      }}, {
+      }}/*, {
         key: 'printLapTimes',
         value: function printLapTimes() {
-            console.log('Lap Times:');
-              console.log('ACKNOWLEDGE' + ': ' + this.lapTimes[0]);
-              console.log('MITIGATE' + ': ' + this.lapTimes[1]);
-              console.log('TRIAGE' + ': ' + this.lapTimes[2]);
-              console.log('RESOLVE' + ': ' + this.lapTimes[3]);
+              console.log('ACKNOWLEDGE from script' + ': ' + this.lapTimes[0]);
+              console.log('MITIGATE from script' + ': ' + this.lapTimes[1]);
+              console.log('TRIAGE from script' + ': ' + this.lapTimes[2]);
+              console.log('RESOLVE from script' + ': ' + this.lapTimes[3]);
           }
     
-    }]);
+    }*/
+]);
     return Stopwatch;
   }();
   
