@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Data to JSON</title>
+  <script>
+    function saveData() {
+      var formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+      };
+
+      var jsonData = JSON.stringify(formData);
+
+      var fileData = "data:text/json;charset=utf-8," + encodeURIComponent(jsonData);
+
+      var linkElement = document.createElement('a');
+      linkElement.setAttribute('href', fileData);
+      linkElement.setAttribute('download', 'form_data.json');
+      linkElement.click();
+    }
+
+    function loadData() {
+      var fileInput = document.getElementById('file-input');
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var jsonData = e.target.result;
+        var formData = JSON.parse(jsonData);
+
+        document.getElementById("name").value = formData.name;
+        document.getElementById("email").value = formData.email;
+        document.getElementById("message").value = formData.message;
+      };
+
+      reader.readAsText(file);
+    }
+  </script>
+</head>
+<body>
+  <h1>Form Data to JSON</h1>
+  <form>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required></textarea><br><br>
+
+    <input type="button" value="Submit" onclick="saveData()">
+  </form>
+
+  <br>
+
+  <input type="file" id="file-input" accept=".json">
+  <button onclick="loadData()">Load Data</button>
+</body>
+</html>
